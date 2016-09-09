@@ -57,7 +57,7 @@ public class Front extends HttpServlet {
                         ResultSet rs = pstmt.executeQuery();
 
                         if (rs.next()) {
-                            //request.getSession().setAttribute("users", users);
+                            request.getSession().setAttribute("username", username);
                             response.sendRedirect("theshop.jsp");
                         } else{
                             response.sendRedirect("login.jsp#");
