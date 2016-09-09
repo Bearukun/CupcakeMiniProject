@@ -4,6 +4,9 @@
     Author     : Ceo
 --%>
 
+<%@page import="entity.Cupcake"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="entity.Layer"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -33,6 +36,40 @@
                 </ul>
             </div>
         </nav>
-        <h1>The Shop</h1>
-        
+        <% ArrayList<Layer> toppingList = (ArrayList<Layer>) session.getAttribute("toppings");
+            ArrayList<Layer> bottomsList = (ArrayList<Layer>) session.getAttribute("bottoms");
+            ArrayList<Cupcake> cupcakesList = (ArrayList<Cupcake>) session.getAttribute("cupcakes");
+
+        %>
+
+        Toppings:
+        <select>
+            <%  for (int i = 0; i < toppingList.size(); i++) {
+                    String option = toppingList.get(i).getCupcakeLayerPiece() +" | " + toppingList.get(i).getPrice() + "$";
+            %>
+
+            <option value="<%= option%>"><%= option%></option>
+            <% }%>
+        </select>
+
+        Bottoms:
+        <select>
+            <%  for (int i = 0; i < bottomsList.size(); i++) {
+                    String option = bottomsList.get(i).getCupcakeLayerPiece() +" | " + bottomsList.get(i).getPrice() + "$";
+            %>
+
+            <option value="<%= option%>"><%= option%></option>
+            <% }%>
+        </select>
+        <br><br>
+        Cupcakes:
+        <select>
+            <%  for (int i = 0; i < cupcakesList.size(); i++) {
+                    String option = cupcakesList.get(i).getCupCakename();
+            %>
+
+            <option value="<%= option%>"><%= option%></option>
+            <% }%>
+        </select>
+
 </html>

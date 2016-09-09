@@ -6,6 +6,8 @@
 package servlets;
 
 import data.Db;
+import entity.Cupcake;
+import entity.Layer;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,6 +30,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Front", urlPatterns = {"/Front"})
 public class Front extends HttpServlet {
+
+    ArrayList<Layer> theBottoms = new ArrayList();
+    ArrayList<Layer> theToppings = new ArrayList();
+    ArrayList<Cupcake> theCupcakes = new ArrayList();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,19 +63,22 @@ public class Front extends HttpServlet {
                         ResultSet rs = pstmt.executeQuery();
 
                         if (rs.next()) {
-                            String sqlBalance = "SELECT balance FROM user where idUser = "+ rs.getInt(1) +";";
+                            String sqlBalance = "SELECT balance FROM user where idUser = " + rs.getInt(1) + ";";
                             PreparedStatement sqlBalpstmt = Db.getConnection().prepareStatement(sqlBalance);
                             ResultSet balance = sqlBalpstmt.executeQuery();
                             balance.last();
-                            int userBalance  = balance.getInt("balance");
-                            
+                            int userBalance = balance.getInt("balance");
+
                             request.getSession().setAttribute("balance", userBalance);
                             request.getSession().setAttribute("username", username);
-                            
+
                             refreshCupcakes(1);
-                            
+                            request.getSession().setAttribute("toppings", theToppings);
+                            request.getSession().setAttribute("bottoms", theBottoms);
+                            request.getSession().setAttribute("cupcakes", theCupcakes);
+
                             response.sendRedirect("theshop.jsp");
-                        } else{
+                        } else {
                             response.sendRedirect("login.jsp#");
                         }
 
@@ -79,12 +88,12 @@ public class Front extends HttpServlet {
                 }
 
                 break;
-                
+
             case "logout":
-                
+
                 request.getSession().invalidate();
                 response.sendRedirect("login.jsp#");
-                
+
                 break;
 
             case "userwhatever":
@@ -129,22 +138,48 @@ public class Front extends HttpServlet {
         }
 
     }
-    
-    protected void refreshCupcakes(int type){
-        
-        if(type == 1){
-            
-            
-            
-        }else if( type == 2){
-            
-            
-            
+
+    protected void refreshCupcakes(int type) {
+
+        if (type == 1) {
+
+            try {
+                //Populate theToppings! 
+                ResultSet rs = Db.getConnection().prepareStatement("SELECT * FROM cupcaketopping").executeQuery();
+                while (rs.next()) {
+                    int topId = rs.getInt(1);
+                    String topCupcakeLayerPiece = rs.getString(2);
+                    int topPrice = rs.getInt(3);
+                    theToppings.add(new Layer(topId, topCupcakeLayerPiece, topPrice));
+                }
+                //Populate theBottoms! 
+                rs = Db.getConnection().prepareStatement("SELECT * FROM cupcakebottom").executeQuery();
+                while (rs.next()) {
+                    int topId = rs.getInt(1);
+                    String topCupcakeLayerPiece = rs.getString(2);
+                    int topPrice = rs.getInt(3);
+                    theBottoms.add(new Layer(topId, topCupcakeLayerPiece, topPrice));
+                }
+                //Populate theCupcakes! 
+                rs = Db.getConnection().prepareStatement("SELECT * FROM cupcake").executeQuery();
+                while (rs.next()) {
+                    int cupcakeId = rs.getInt(1);
+                    String cupcakeName = rs.getString(2);
+                    int cupcakeIdTopping = rs.getInt(3);
+                    int cupcakeIdBottom = rs.getInt(4);
+                    theCupcakes.add(new Cupcake(cupcakeId, cupcakeName, cupcakeIdTopping, cupcakeIdBottom));
+                }
+                
+                
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+        } else if (type == 2) {
+
         }
-        
-        
-        
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

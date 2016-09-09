@@ -16,3 +16,5 @@ INSERT INTO `cupcakeshop`.`cupcakebottom` (`cupCakeBottomPiece`, `price`) VALUES
 INSERT INTO `cupcakeshop`.`cupcakebottom` (`cupCakeBottomPiece`, `price`) VALUES ('Orange', '8');
 INSERT INTO `cupcakeshop`.`cupcakebottom` (`cupCakeBottomPiece`, `price`) VALUES ('Lemon', '8');
 INSERT INTO `cupcakeshop`.`cupcakebottom` (`cupCakeBottomPiece`, `price`) VALUES ('Blue cheese', '9');
+
+INSERT INTO `cupcakeshop`.`cupcake` (`cupcakeName`, `idTopping`, `idBottom`) VALUES ('ChoccoNut', '3', '1');
