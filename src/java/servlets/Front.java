@@ -36,8 +36,7 @@ public class Front extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -51,9 +50,10 @@ public class Front extends HttpServlet {
                     ResultSet rs = Db.getConnection().prepareStatement("SELECT * FROM login").executeQuery();
                     while (rs.next()) {
                         int id = rs.getInt(1);
-                        String username = rs.getString(2);
+                        String userName = rs.getString(2);
                         String password = rs.getString(3);
-                        users.add(new User(id, username, password));
+                        int balance = rs.getInt(4);
+                        users.add(new User(id, userName, password, balance));
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();

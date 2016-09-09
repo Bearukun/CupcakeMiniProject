@@ -2,31 +2,38 @@ package entity;
 
 public class User {
 
-    private int id;
-    private String username;
+    private int idUser;
+    private String userName;
     private String password;
+    private int balance;
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String userName, String password, int balance) {
+        this.userName = userName;
         this.password = password;
+        this.balance = balance;
     }
 
-    public User(int id, String username, String password) {
-        this.id = id;
-        this.username = username;
+    public User(int idUser, String userName, String password, int balance) {
+        this.idUser = idUser;
+        this.userName = userName;
         this.password = password;
+        this.balance = balance;
     }
 
-    public int getId() {
-        return id;
+    public int getIdUser() {
+        return idUser;
     }
 
-    public String getUsername() {
-        return username;
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -37,9 +44,17 @@ public class User {
         this.password = password;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     @Override
     public String toString() {
-        return id + " : " + username + " : " + password;
+        return "User{" + "idUser=" + idUser + ", userName=" + userName + ", password=" + password + ", balance=" + balance + '}';
     }
 
 }
