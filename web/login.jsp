@@ -18,7 +18,6 @@
             <input type="password" name="password" value="" placeholder="Password" />
             <input type="hidden" name="origin" value="login" />
             <input type="submit" value="login" name="Login" />
-            
         </form>
     </body>
 </html>

@@ -50,7 +50,7 @@ public class Front extends HttpServlet {
 
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
-                String sql = "SELECT idUser from user where binary userName like \"" + username + "\" and binary password like \"" + password + "\"";
+                String sql = "SELECT idUser from user where binary username like \"" + username + "\" and binary password like \"" + password + "\"";
                  {
                     try {
                         PreparedStatement pstmt = Db.getConnection().prepareStatement(sql);
@@ -65,6 +65,9 @@ public class Front extends HttpServlet {
                             
                             request.getSession().setAttribute("balance", userBalance);
                             request.getSession().setAttribute("username", username);
+                            
+                            refreshCupcakes(1);
+                            
                             response.sendRedirect("theshop.jsp");
                         } else{
                             response.sendRedirect("login.jsp#");
@@ -125,6 +128,23 @@ public class Front extends HttpServlet {
                 break;
         }
 
+    }
+    
+    protected void refreshCupcakes(int type){
+        
+        if(type == 1){
+            
+            
+            
+        }else if( type == 2){
+            
+            
+            
+        }
+        
+        
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
