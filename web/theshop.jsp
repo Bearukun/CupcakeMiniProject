@@ -34,6 +34,5 @@
             </div>
         </nav>
         <h1>The Shop</h1>
-
-    </body>
+        
 </html>
