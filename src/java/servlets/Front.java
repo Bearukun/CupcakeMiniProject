@@ -57,6 +57,11 @@ public class Front extends HttpServlet {
                         ResultSet rs = pstmt.executeQuery();
 
                         if (rs.next()) {
+                            String sqlBalance = "SELECT balance FROM user where idUser = "+ rs.getInt(1) +";";
+                            PreparedStatement sqlBalpstmt = Db.getConnection().prepareStatement(sqlBalance);
+                            ResultSet balance = sqlBalpstmt.executeQuery();
+                            
+                            request.getSession().setAttribute("balance", balance.getString(0));
                             request.getSession().setAttribute("username", username);
                             response.sendRedirect("theshop.jsp");
                         } else{
