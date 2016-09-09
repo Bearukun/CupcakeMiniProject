@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,36 +46,60 @@ public class Front extends HttpServlet {
 
         switch (origin) {
 
-            case "userlist":
+            case "login":
+
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                String sql = "SELECT idUser from user where binary userName like \"" + username + "\" and binary password like \"" + password + "\"";
+                 {
+                    try {
+                        PreparedStatement pstmt = Db.getConnection().prepareStatement(sql);
+                        ResultSet rs = pstmt.executeQuery();
+
+                        if (rs.next()) {
+                            //request.getSession().setAttribute("users", users);
+                            response.sendRedirect("theshop.jsp");
+                        } else{
+                            response.sendRedirect("login.jsp#");
+                        }
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                break;
+
+            case "userwhatever":
                 List<User> users = new ArrayList();
                 try {
                     ResultSet rs = Db.getConnection().prepareStatement("SELECT * FROM login").executeQuery();
                     while (rs.next()) {
                         int id = rs.getInt(1);
                         String userName = rs.getString(2);
-                        String password = rs.getString(3);
+                        String passwordWhatEver = rs.getString(3);
                         int balance = rs.getInt(4);
-                        users.add(new User(id, userName, password, balance));
+                        users.add(new User(id, userName, passwordWhatEver, balance));
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
                 request.getSession().setAttribute("users", users);
-                response.sendRedirect("userlist.jsp");
+                response.sendRedirect("theshop.jsp");
 
                 break;
 
             case "register":
                 try {
-                    String username = request.getParameter("username");
-                    String password = request.getParameter("password");
-                    String sql = "INSERT INTO login (username, password) VALUES (?, ?)";
-                    PreparedStatement pstmt = Db.getConnection().prepareStatement(sql);
-                    pstmt.setString(1, username);
-                    pstmt.setString(2, password);
+                    String usernameRegister = request.getParameter("username");
+                    String passwordRegister = request.getParameter("password");
+                    String sqlRegister = "INSERT INTO login (username, password) VALUES (?, ?)";
+                    PreparedStatement pstmt = Db.getConnection().prepareStatement(sqlRegister);
+                    pstmt.setString(1, usernameRegister);
+                    pstmt.setString(2, passwordRegister);
                     pstmt.executeUpdate();
-                    request.getSession().setAttribute("username", username);
-                    request.getSession().setAttribute("password", password);
+                    request.getSession().setAttribute("username", usernameRegister);
+                    request.getSession().setAttribute("password", passwordRegister);
                     request.getRequestDispatcher("result.jsp").forward(request, response);
                     response.getWriter().print("SUCCESS! the user is added");
                 } catch (SQLException ex) {
