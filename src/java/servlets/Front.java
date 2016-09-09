@@ -69,6 +69,13 @@ public class Front extends HttpServlet {
                 }
 
                 break;
+                
+            case "logout":
+                
+                request.getSession().invalidate();
+                response.sendRedirect("login.jsp#");
+                
+                break;
 
             case "userwhatever":
                 List<User> users = new ArrayList();
