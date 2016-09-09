@@ -1,5 +1,5 @@
-INSERT INTO `cupcakeshop`.`user` (`userName`, `password`, `balance`) VALUES ('Christian', 'Olsen', '1000');
-INSERT INTO `cupcakeshop`.`user` (`userName`, `password`, `balance`) VALUES ('Bjørn', 'Kristiansen', '1001');
+INSERT INTO `cupcakeshop`.`user` (`username`, `password`, `balance`) VALUES ('Christian', 'Olsen', '1000');
+INSERT INTO `cupcakeshop`.`user` (`username`, `password`, `balance`) VALUES ('Bjørn', 'Kristiansen', '1001');
 
 INSERT INTO `cupcakeshop`.`cupcaketopping` (`cupCakeToppingPiece`, `price`) VALUES ('Chocolate', '5');
 INSERT INTO `cupcakeshop`.`cupcaketopping` (`cupCakeToppingPiece`, `price`) VALUES ('Vanilla', '5');
