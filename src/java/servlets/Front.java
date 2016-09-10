@@ -31,6 +31,7 @@ public class Front extends HttpServlet {
     ArrayList<Layer> theToppings = new ArrayList();
     ArrayList<Cupcake> theCupcakes = new ArrayList();
     ArrayList<Cupcake> basket = new ArrayList();
+    int grandTotal = 0;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -149,14 +150,16 @@ public class Front extends HttpServlet {
                     
                 }
 
+                grandTotal = calGrandTotal();
 
-                response.sendRedirect("theshop.jsp#"+cupId+theCupcakes.get(0).getIdCupcake() );
+                response.sendRedirect("theshop.jsp#");
 
                 break;
 
             case "goToBasket":
 
                 request.getSession().setAttribute("basket", basket);
+                request.getSession().setAttribute("grandTotal", grandTotal);
                 response.sendRedirect("basket.jsp");
 
                 break;
@@ -166,6 +169,21 @@ public class Front extends HttpServlet {
         }
 
     }
+    
+    protected int calGrandTotal(){
+        
+        int temp = 0;
+        
+        for (Cupcake basketItem : basket) {
+            
+            temp += ((theToppings.get(basketItem.getIdTopping()).getPrice() + theBottoms.get(basketItem.getIdBottom()).getPrice()) * basketItem.getQty());
+            
+        }
+        
+        return temp;
+    }
+    
+    
 
     protected void refreshCupcakes(int type) {
 

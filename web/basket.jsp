@@ -42,11 +42,12 @@
                 <table class="table table-hover">
                     <thead>
                         <tr class="active">
-                            <th>id</th>
-                            <th>name</th>
-                            <th>topping</th>
-                            <th>bottom</th>
-                            <th>amount</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Topping</th>
+                            <th>Bottom</th>
+                            <th>Amount</th>
+                            <th>Price</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,10 +59,12 @@
                                 out.println("<td>" + toppingList.get(cake.getIdTopping()).getCupcakeLayerPiece() + "</td>");
                                 out.println("<td>" + bottomsList.get(cake.getIdBottom()).getCupcakeLayerPiece() + "</td>");
                                 out.println("<td>" + cake.getQty() + "</td>");
+                                out.println("<td>" + ((toppingList.get(cake.getIdTopping()).getPrice() + bottomsList.get(cake.getIdBottom()).getPrice()) * cake.getQty()) + "</td>");
                                 out.println("</tr>");
                             }%>
                     </tbody>
                 </table>
+                    <h4 style="color: white" align="center">Grand Total: <% out.print(session.getAttribute("grandTotal")); %> </h4>
                 <div>
                     <form action="Front" method="POST">
                         <div class="col-xs-6" style="padding-top: 0px">
