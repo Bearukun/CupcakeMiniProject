@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * 
- */
 package servlets;
 
 import data.Db;
@@ -18,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,6 +30,7 @@ public class Front extends HttpServlet {
     ArrayList<Layer> theBottoms = new ArrayList();
     ArrayList<Layer> theToppings = new ArrayList();
     ArrayList<Cupcake> theCupcakes = new ArrayList();
+    ArrayList<Cupcake> basket = new ArrayList();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,6 +46,7 @@ public class Front extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         String origin = request.getParameter("origin");
+        String selectedIdBasket = request.getParameter("selectedIdBasket");
 
         switch (origin) {
 
@@ -96,41 +94,71 @@ public class Front extends HttpServlet {
 
                 break;
 
-            case "userwhatever":
-                List<User> users = new ArrayList();
+            case "addCupcake":
+
                 try {
-                    ResultSet rs = Db.getConnection().prepareStatement("SELECT * FROM login").executeQuery();
-                    while (rs.next()) {
-                        int id = rs.getInt(1);
-                        String userName = rs.getString(2);
-                        String passwordWhatEver = rs.getString(3);
-                        int balance = rs.getInt(4);
-                        users.add(new User(id, userName, passwordWhatEver, balance));
-                    }
+
+                    String cupTopping = request.getParameter("selectedTopping");
+                    String cupButtom = request.getParameter("selectedBottom");
+                    String cupName = request.getParameter("cupcakeName");
+
+                    String sqlRegister = "INSERT INTO `cupcakeshop`.`cupcake` (`cupcakeName`, `idTopping`, `idBottom`) VALUES (\"" + cupName + "\", (select idTopping from cupcaketopping where cupcakeToppingPiece like \"" + cupTopping + "\"), (select idBottom from cupcakebottom where cupcakeBottomPiece like \"" + cupButtom + "\"));";
+                    PreparedStatement pstmt = Db.getConnection().prepareStatement(sqlRegister);
+
+                    pstmt.executeUpdate();
+
+                    refreshCupcakes(2);
+
+                    request.getRequestDispatcher("theshop.jsp").forward(request, response);
+
+                    response.getWriter().print("SUCCESS! The cupcake has been added!");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
-                request.getSession().setAttribute("users", users);
-                response.sendRedirect("theshop.jsp");
 
                 break;
 
-            case "register":
-                try {
-                    String usernameRegister = request.getParameter("username");
-                    String passwordRegister = request.getParameter("password");
-                    String sqlRegister = "INSERT INTO login (username, password) VALUES (?, ?)";
-                    PreparedStatement pstmt = Db.getConnection().prepareStatement(sqlRegister);
-                    pstmt.setString(1, usernameRegister);
-                    pstmt.setString(2, passwordRegister);
-                    pstmt.executeUpdate();
-                    request.getSession().setAttribute("username", usernameRegister);
-                    request.getSession().setAttribute("password", passwordRegister);
-                    request.getRequestDispatcher("result.jsp").forward(request, response);
-                    response.getWriter().print("SUCCESS! the user is added");
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+            case "addToBasket":
+
+                String cupName = request.getParameter("selectedCupcake");
+                String[] cupNameSplit = cupName.split("#");
+                int cupId = Integer.parseInt(cupNameSplit[0]);
+
+                for (int i = 0; i < theCupcakes.size(); i++) {
+
+                    if (theCupcakes.get(i).getIdTopping() == cupId) {
+
+                        for (int j = 0; j < basket.size(); j++) {
+
+                            //Checking whether the items already exists.
+                            if (theCupcakes.get(i).getIdTopping() == basket.get(j).getIdCupcake()) {
+
+                                //Add one to qty.
+                                basket.get(j).setQty(basket.get(j).getQty() + 1);
+
+                            } else {
+
+                                basket.add(new Cupcake(cupId, theCupcakes.get(i).getCupCakename(), theCupcakes.get(i).getIdTopping(), theCupcakes.get(i).getIdBottom(), 1));
+
+                            }
+
+                        }
+
+                    }
+
                 }
+
+                
+                response.sendRedirect("theshop.jsp");
+                
+                break;
+                
+            case "goToBasket":
+                
+                request.getSession().setAttribute("basket", basket);
+                response.sendRedirect("basket.jsp");
+                
+                
                 break;
 
             default:
@@ -169,14 +197,29 @@ public class Front extends HttpServlet {
                     int cupcakeIdBottom = rs.getInt(4);
                     theCupcakes.add(new Cupcake(cupcakeId, cupcakeName, cupcakeIdTopping, cupcakeIdBottom));
                 }
-                
-                
-                
+
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
 
         } else if (type == 2) {
+
+            try {
+                //Clear all elements!
+                theCupcakes.clear();
+                //Populate theCupcakes! 
+                ResultSet rs = Db.getConnection().prepareStatement("SELECT * FROM cupcake").executeQuery();
+                while (rs.next()) {
+                    int cupcakeId = rs.getInt(1);
+                    String cupcakeName = rs.getString(2);
+                    int cupcakeIdTopping = rs.getInt(3);
+                    int cupcakeIdBottom = rs.getInt(4);
+                    theCupcakes.add(new Cupcake(cupcakeId, cupcakeName, cupcakeIdTopping, cupcakeIdBottom));
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
 
         }
 

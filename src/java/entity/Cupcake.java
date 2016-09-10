@@ -11,8 +11,9 @@ public class Cupcake {
     private String cupCakename;
     private int idTopping;
     private int idBottom;
+    private int qty;
 
-    //Used to create a new cupcake from the site
+    //Used to create a new cupcake from the site (not used)
     public Cupcake(String cupCakename, int idTopping, int idBottom) {
         this.cupCakename = cupCakename;
         this.idTopping = idTopping;
@@ -26,6 +27,17 @@ public class Cupcake {
         this.idTopping = idTopping;
         this.idBottom = idBottom;
     }
+    
+    //Used when adding Cupcakes to the basket
+
+    public Cupcake(int idCupcake, String cupCakename, int idTopping, int idBottom, int qty) {
+        this.idCupcake = idCupcake;
+        this.cupCakename = cupCakename;
+        this.idTopping = idTopping;
+        this.idBottom = idBottom;
+        this.qty = qty;
+    }
+    
     
     
 
@@ -61,10 +73,14 @@ public class Cupcake {
         this.idBottom = idBottom;
     }
 
-    @Override
-    public String toString() {
-        return "Cupcake{" + "idCupcake=" + idCupcake + ", cupCakename=" + cupCakename + ", idTopping=" + idTopping + ", idBottom=" + idBottom + '}';
+    public int getQty() {
+        return qty;
     }
-    
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+
     
 }

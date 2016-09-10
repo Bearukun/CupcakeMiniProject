@@ -1,0 +1,33 @@
+.createCupcake{
+     
+    height: 220px;
+    background-color: cadetblue;
+    
+}
+
+
+.chooseCupcakeContent{
+
+    max-width: 700px;
+    height: auto;
+    padding: 10px;
+    margin: auto;
+
+}
+
+.chooseCupcake{
+     
+    height: 210px;
+    background-color: lightgreen;
+    
+}
+
+
+.createCupcakeContent{
+
+    max-width: 700px;
+    height: auto;
+    padding: 10px;
+    margin: auto;
+
+}
