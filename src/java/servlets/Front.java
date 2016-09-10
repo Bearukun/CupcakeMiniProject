@@ -106,23 +106,25 @@ public class Front extends HttpServlet {
                 try {
 
                     String cupName = request.getParameter("cupcakeName");
-                    String cupTopping = request.getParameter("selectedTopping");
-                    String cupButtom = request.getParameter("selectedBottom");
+                    String cupTopping = request.getParameter("selectedTopping").split("\\|")[0];
+                    String cupButtom = request.getParameter("selectedBottom").split("\\|")[0];
+
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert("+ cupTopping+");");
+                    out.println("</script>");
 
                     //String sqlRegister = "INSERT INTO `cupcakeshop`.`cupcake` (`cupcakeName`, `idTopping`, `idBottom`) VALUES (\"" + cupName + "\", (select idTopping from cupcaketopping where cupcakeToppingPiece like \"" + cupTopping + "\"), (select idBottom from cupcakebottom where cupcakeBottomPiece like \"" + cupButtom + "\"));";
                     String sqlRegister = "INSERT INTO `cupcakeshop`.`cupcake` (`cupcakeName`, `idTopping`, `idBottom`) VALUES (?, (select idTopping from cupcaketopping where cupcakeToppingPiece like ?), (select idBottom from cupcakebottom where cupcakeBottomPiece like ?));";
-                    
+
                     PreparedStatement pstmt = Db.getConnection().prepareStatement(sqlRegister);
 
-                    pstmt.setString(1, cupName);
-                    pstmt.setString(2, cupTopping);
-                    pstmt.setString(3, cupButtom);
-                    
-                    
+                    pstmt.setString(1,cupName);
+                    pstmt.setString(2, cupTopping.substring(0, cupTopping.length()-1));
+                    pstmt.setString(3, cupButtom.substring(0, cupButtom.length()-1));
+
                     pstmt.executeUpdate();
 
                     refreshCupcakes(2);
-
                     //request.getRequestDispatcher("theshop.jsp").forward(request, response);
                     response.sendRedirect("theshop.jsp#");
                     response.getWriter().print("SUCCESS! The cupcake has been added!");
