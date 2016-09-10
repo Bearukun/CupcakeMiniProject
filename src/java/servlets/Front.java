@@ -31,6 +31,8 @@ public class Front extends HttpServlet {
     ArrayList<Layer> theToppings = new ArrayList();
     ArrayList<Cupcake> theCupcakes = new ArrayList();
     ArrayList<Cupcake> basket = new ArrayList();
+    
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -93,6 +95,13 @@ public class Front extends HttpServlet {
                 response.sendRedirect("login.jsp#");
 
                 break;
+                
+            case "empty":
+                
+                basket.clear();
+                response.sendRedirect("basket.jsp#");
+                
+                break;
 
             case "addCupcake":
 
@@ -127,6 +136,9 @@ public class Front extends HttpServlet {
                 for (int i = 0; i < theCupcakes.size(); i++) {
 
                     if (theCupcakes.get(i).getIdTopping() == cupId) {
+                        
+                         basket.add(new Cupcake(cupId, theCupcakes.get(i).getCupCakename(), theCupcakes.get(i).getIdTopping(), theCupcakes.get(i).getIdBottom(), 1));
+
 
                         for (int j = 0; j < basket.size(); j++) {
 
@@ -154,6 +166,8 @@ public class Front extends HttpServlet {
                 break;
                 
             case "goToBasket":
+                
+                basket.add(new Cupcake(1, "test", 1, 2, 4));
                 
                 request.getSession().setAttribute("basket", basket);
                 response.sendRedirect("basket.jsp");

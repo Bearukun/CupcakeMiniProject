@@ -5,7 +5,9 @@
  */
 package entity;
 
-public class Cupcake {
+import java.io.Serializable;
+
+public class Cupcake  implements Serializable {
     
     private int idCupcake;
     private String cupCakename;
@@ -13,12 +15,6 @@ public class Cupcake {
     private int idBottom;
     private int qty;
 
-    //Used to create a new cupcake from the site (not used)
-    public Cupcake(String cupCakename, int idTopping, int idBottom) {
-        this.cupCakename = cupCakename;
-        this.idTopping = idTopping;
-        this.idBottom = idBottom;
-    }
 
     //Used when pulling data from mysql to local ArrayList
     public Cupcake(int idCupcake, String cupCakename, int idTopping, int idBottom) {
@@ -26,6 +22,7 @@ public class Cupcake {
         this.cupCakename = cupCakename;
         this.idTopping = idTopping;
         this.idBottom = idBottom;
+        qty = 1;
     }
     
     //Used when adding Cupcakes to the basket
