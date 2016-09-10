@@ -32,6 +32,7 @@ public class Front extends HttpServlet {
     ArrayList<Cupcake> theCupcakes = new ArrayList();
     ArrayList<Cupcake> basket = new ArrayList();
     int grandTotal = 0;
+    int userBalance = 0;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,7 +67,7 @@ public class Front extends HttpServlet {
                             PreparedStatement sqlBalpstmt = Db.getConnection().prepareStatement(sqlBalance);
                             ResultSet balance = sqlBalpstmt.executeQuery();
                             balance.last();
-                            int userBalance = balance.getInt("balance");
+                            userBalance = balance.getInt("balance");
 
                             request.getSession().setAttribute("balance", userBalance);
                             request.getSession().setAttribute("username", username);
@@ -183,12 +184,42 @@ public class Front extends HttpServlet {
 
                 break;
 
+            case "checkout":
+
+                //if user doesn't have enough funds!
+                if (grandTotal >= userBalance) {
+                    response.sendRedirect("basket.jsp#not enough money");
+
+                    
+                    
+                //else if user has enough funds!
+                } else {
+                    response.sendRedirect("basket.jsp#purchase!");
+
+//                    try {
+//
+//                        PreparedStatement sqlBalpstmt = Db.getConnection().prepareStatement(sqlBalance);
+//                        ResultSet balance = sqlBalpstmt.executeQuery();
+//                        balance.last();
+//                        int userBalance = balance.getInt("balance");
+//
+//                        request.getSession().setAttribute("balance", userBalance);
+//
+//                    } catch (SQLException ex) {
+//                        Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+
+                }
+
+                break;
+
             default:
                 break;
         }
 
     }
 
+//Methods used to make thing more easy for us.
     protected int calGrandTotal() {
 
         int temp = 0;
