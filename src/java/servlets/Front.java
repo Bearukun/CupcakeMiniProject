@@ -98,6 +98,7 @@ public class Front extends HttpServlet {
             case "empty":
 
                 basket.clear();
+                grandTotal = calGrandTotal();
                 response.sendRedirect("basket.jsp#");
 
                 break;
