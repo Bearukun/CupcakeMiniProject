@@ -87,7 +87,7 @@
                     <div class="col-xs-12" style="padding-top: 20px">
                         <select  class="form-control" name="selectedCupcake" id="selectedCupcake">
                             <%  for (int i = 0; i < cupcakesList.size(); i++) {
-                                    String option = cupcakesList.get(i).getIdCupcake() + "# " + cupcakesList.get(i).getCupCakename() + " || Topping: " + toppingList.get(cupcakesList.get(i).getIdTopping()).getCupcakeLayerPiece() + " - Bottom: " + bottomsList.get(cupcakesList.get(i).getIdBottom()).getCupcakeLayerPiece() + " || Price: " + (toppingList.get(cupcakesList.get(i).getIdTopping()).getPrice() + bottomsList.get(cupcakesList.get(i).getIdBottom()).getPrice() + "$");
+                                    String option = cupcakesList.get(i).getIdCupcake() + "# " + cupcakesList.get(i).getCupCakename() + " || Topping: " + toppingList.get(cupcakesList.get(i).getIdTopping()-1).getCupcakeLayerPiece() + " - Bottom: " + bottomsList.get(cupcakesList.get(i).getIdBottom()-1).getCupcakeLayerPiece() + " || Price: " + (toppingList.get(cupcakesList.get(i).getIdTopping()).getPrice() + bottomsList.get(cupcakesList.get(i).getIdBottom()).getPrice() + "$");
                             %>
                             <option value="<%= option%>"><%= option%></option>
                             <% }%>
