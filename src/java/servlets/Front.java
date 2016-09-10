@@ -31,8 +31,6 @@ public class Front extends HttpServlet {
     ArrayList<Layer> theToppings = new ArrayList();
     ArrayList<Cupcake> theCupcakes = new ArrayList();
     ArrayList<Cupcake> basket = new ArrayList();
-    
-    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -95,31 +93,38 @@ public class Front extends HttpServlet {
                 response.sendRedirect("login.jsp#");
 
                 break;
-                
+
             case "empty":
-                
+
                 basket.clear();
                 response.sendRedirect("basket.jsp#");
-                
+
                 break;
 
             case "addCupcake":
 
                 try {
 
+                    String cupName = request.getParameter("cupcakeName");
                     String cupTopping = request.getParameter("selectedTopping");
                     String cupButtom = request.getParameter("selectedBottom");
-                    String cupName = request.getParameter("cupcakeName");
 
-                    String sqlRegister = "INSERT INTO `cupcakeshop`.`cupcake` (`cupcakeName`, `idTopping`, `idBottom`) VALUES (\"" + cupName + "\", (select idTopping from cupcaketopping where cupcakeToppingPiece like \"" + cupTopping + "\"), (select idBottom from cupcakebottom where cupcakeBottomPiece like \"" + cupButtom + "\"));";
+                    //String sqlRegister = "INSERT INTO `cupcakeshop`.`cupcake` (`cupcakeName`, `idTopping`, `idBottom`) VALUES (\"" + cupName + "\", (select idTopping from cupcaketopping where cupcakeToppingPiece like \"" + cupTopping + "\"), (select idBottom from cupcakebottom where cupcakeBottomPiece like \"" + cupButtom + "\"));";
+                    String sqlRegister = "INSERT INTO `cupcakeshop`.`cupcake` (`cupcakeName`, `idTopping`, `idBottom`) VALUES (?, (select idTopping from cupcaketopping where cupcakeToppingPiece like ?), (select idBottom from cupcakebottom where cupcakeBottomPiece like ?));";
+                    
                     PreparedStatement pstmt = Db.getConnection().prepareStatement(sqlRegister);
 
+                    pstmt.setString(1, cupName);
+                    pstmt.setString(2, cupTopping);
+                    pstmt.setString(3, cupButtom);
+                    
+                    
                     pstmt.executeUpdate();
 
                     refreshCupcakes(2);
 
-                    request.getRequestDispatcher("theshop.jsp").forward(request, response);
-
+                    //request.getRequestDispatcher("theshop.jsp").forward(request, response);
+                    response.sendRedirect("theshop.jsp#");
                     response.getWriter().print("SUCCESS! The cupcake has been added!");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -136,9 +141,8 @@ public class Front extends HttpServlet {
                 for (int i = 0; i < theCupcakes.size(); i++) {
 
                     if (theCupcakes.get(i).getIdTopping() == cupId) {
-                        
-                         basket.add(new Cupcake(cupId, theCupcakes.get(i).getCupCakename(), theCupcakes.get(i).getIdTopping(), theCupcakes.get(i).getIdBottom(), 1));
 
+                        basket.add(new Cupcake(cupId, theCupcakes.get(i).getCupCakename(), theCupcakes.get(i).getIdTopping(), theCupcakes.get(i).getIdBottom(), 1));
 
                         for (int j = 0; j < basket.size(); j++) {
 
@@ -160,19 +164,17 @@ public class Front extends HttpServlet {
 
                 }
 
-                
                 response.sendRedirect("theshop.jsp");
-                
+
                 break;
-                
+
             case "goToBasket":
-                
+
                 basket.add(new Cupcake(1, "test", 1, 2, 4));
-                
+
                 request.getSession().setAttribute("basket", basket);
                 response.sendRedirect("basket.jsp");
-                
-                
+
                 break;
 
             default:
@@ -186,6 +188,7 @@ public class Front extends HttpServlet {
         if (type == 1) {
 
             try {
+                theToppings.clear();
                 //Populate theToppings! 
                 ResultSet rs = Db.getConnection().prepareStatement("SELECT * FROM cupcaketopping").executeQuery();
                 while (rs.next()) {
@@ -194,14 +197,16 @@ public class Front extends HttpServlet {
                     int topPrice = rs.getInt(3);
                     theToppings.add(new Layer(topId, topCupcakeLayerPiece, topPrice));
                 }
+                theBottoms.clear();
                 //Populate theBottoms! 
                 rs = Db.getConnection().prepareStatement("SELECT * FROM cupcakebottom").executeQuery();
                 while (rs.next()) {
-                    int topId = rs.getInt(1);
-                    String topCupcakeLayerPiece = rs.getString(2);
-                    int topPrice = rs.getInt(3);
-                    theBottoms.add(new Layer(topId, topCupcakeLayerPiece, topPrice));
+                    int botId = rs.getInt(1);
+                    String botCupcakeLayerPiece = rs.getString(2);
+                    int botPrice = rs.getInt(3);
+                    theBottoms.add(new Layer(botId, botCupcakeLayerPiece, botPrice));
                 }
+                theCupcakes.clear();
                 //Populate theCupcakes! 
                 rs = Db.getConnection().prepareStatement("SELECT * FROM cupcake").executeQuery();
                 while (rs.next()) {

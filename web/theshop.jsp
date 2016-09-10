@@ -71,7 +71,7 @@
                     </div>
                     <div class="col-xs-12" style="padding-top: 20px">
                         <input type="hidden" name="origin" value="addCupcake" />
-                        <input style="max-width: 120px; margin: auto" class="btn btn-warning btn-block" type="submit" value="Add Cupcake" name="Login" />
+                        <input style="max-width: 120px; margin: auto" class="btn btn-warning btn-block" type="submit" value="Add Cupcake" name="add cupcake" />
                     </div>
                 </form>
 
