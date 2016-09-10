@@ -67,7 +67,7 @@
                     </div>
                     <div class="col-xs-4">
                         <h5 style="color: white" align="center">3. Name</h5>
-                        <input class="form-control" type="text" name="cupcakeName" value="Enter a name here." />
+                        <input class="form-control" type="text" name="cupcakeName" placeholder="Enter a name here." />
                     </div>
                     <div class="col-xs-12" style="padding-top: 20px">
                         <input type="hidden" name="origin" value="addCupcake" />
@@ -87,7 +87,7 @@
                     <div class="col-xs-12" style="padding-top: 20px">
                         <select  class="form-control" name="selectedCupcake" id="selectedCupcake">
                             <%  for (int i = 0; i < cupcakesList.size(); i++) {
-                                    String option = cupcakesList.get(i).getIdCupcake() + "# " + cupcakesList.get(i).getCupCakename() + " || Topping: " + toppingList.get(cupcakesList.get(i).getIdTopping()).getCupcakeLayerPiece() + " - Bottom: " + bottomsList.get(cupcakesList.get(i).getIdBottom()).getCupcakeLayerPiece() + " || Price: " + (toppingList.get(cupcakesList.get(i).getIdTopping()).getPrice() + bottomsList.get(cupcakesList.get(i).getIdBottom()).getPrice() +"$");
+                                    String option = cupcakesList.get(i).getIdCupcake() + "# " + cupcakesList.get(i).getCupCakename() + " || Topping: " + toppingList.get(cupcakesList.get(i).getIdTopping()).getCupcakeLayerPiece() + " - Bottom: " + bottomsList.get(cupcakesList.get(i).getIdBottom()).getCupcakeLayerPiece() + " || Price: " + (toppingList.get(cupcakesList.get(i).getIdTopping()).getPrice() + bottomsList.get(cupcakesList.get(i).getIdBottom()).getPrice() + "$");
                             %>
                             <option value="<%= option%>"><%= option%></option>
                             <% }%>
