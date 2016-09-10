@@ -110,7 +110,7 @@ public class Front extends HttpServlet {
                     String cupButtom = request.getParameter("selectedBottom").split("\\|")[0];
 
                     out.println("<script type=\"text/javascript\">");
-                    out.println("alert("+ cupTopping+");");
+                    out.println("alert(" + cupTopping + ");");
                     out.println("</script>");
 
                     //String sqlRegister = "INSERT INTO `cupcakeshop`.`cupcake` (`cupcakeName`, `idTopping`, `idBottom`) VALUES (\"" + cupName + "\", (select idTopping from cupcaketopping where cupcakeToppingPiece like \"" + cupTopping + "\"), (select idBottom from cupcakebottom where cupcakeBottomPiece like \"" + cupButtom + "\"));";
@@ -118,16 +118,15 @@ public class Front extends HttpServlet {
 
                     PreparedStatement pstmt = Db.getConnection().prepareStatement(sqlRegister);
 
-                    pstmt.setString(1,cupName);
-                    pstmt.setString(2, cupTopping.substring(0, cupTopping.length()-1));
-                    pstmt.setString(3, cupButtom.substring(0, cupButtom.length()-1));
+                    pstmt.setString(1, cupName);
+                    pstmt.setString(2, cupTopping.substring(0, cupTopping.length() - 1));
+                    pstmt.setString(3, cupButtom.substring(0, cupButtom.length() - 1));
 
                     pstmt.executeUpdate();
 
                     refreshCupcakes(2);
-                    //request.getRequestDispatcher("theshop.jsp").forward(request, response);
                     response.sendRedirect("theshop.jsp#");
-                    response.getWriter().print("SUCCESS! The cupcake has been added!");
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -139,40 +138,23 @@ public class Front extends HttpServlet {
                 String cupName = request.getParameter("selectedCupcake");
                 String[] cupNameSplit = cupName.split("#");
                 int cupId = Integer.parseInt(cupNameSplit[0]);
-
+                
                 for (int i = 0; i < theCupcakes.size(); i++) {
-
-                    if (theCupcakes.get(i).getIdTopping() == cupId) {
-
-                        basket.add(new Cupcake(cupId, theCupcakes.get(i).getCupCakename(), theCupcakes.get(i).getIdTopping(), theCupcakes.get(i).getIdBottom(), 1));
-
-                        for (int j = 0; j < basket.size(); j++) {
-
-                            //Checking whether the items already exists.
-                            if (theCupcakes.get(i).getIdTopping() == basket.get(j).getIdCupcake()) {
-
-                                //Add one to qty.
-                                basket.get(j).setQty(basket.get(j).getQty() + 1);
-
-                            } else {
-
-                                basket.add(new Cupcake(cupId, theCupcakes.get(i).getCupCakename(), theCupcakes.get(i).getIdTopping(), theCupcakes.get(i).getIdBottom(), 1));
-
-                            }
-
-                        }
-
+                    
+                    if(cupId == theCupcakes.get(i).getIdCupcake()){
+                        
+                        basket.add(new Cupcake(theCupcakes.get(i).getIdCupcake(), theCupcakes.get(i).getCupCakename(), theCupcakes.get(i).getIdTopping(), theCupcakes.get(i).getIdBottom(), 1));
+                        
                     }
-
+                    
                 }
 
-                response.sendRedirect("theshop.jsp");
+
+                response.sendRedirect("theshop.jsp#"+cupId+theCupcakes.get(0).getIdCupcake() );
 
                 break;
 
             case "goToBasket":
-
-                basket.add(new Cupcake(1, "test", 1, 2, 4));
 
                 request.getSession().setAttribute("basket", basket);
                 response.sendRedirect("basket.jsp");
