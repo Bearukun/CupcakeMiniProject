@@ -56,7 +56,7 @@
                                 out.println("<td>" + cake.getIdCupcake() + "</td>");
                                 out.println("<td>" + cake.getCupCakename() + "</td>");
                                 out.println("<td>" + toppingList.get(cake.getIdTopping()).getCupcakeLayerPiece() + "</td>");
-                                out.println("<td>" + toppingList.get(cake.getIdBottom()).getCupcakeLayerPiece() + "</td>");
+                                out.println("<td>" + bottomsList.get(cake.getIdBottom()).getCupcakeLayerPiece() + "</td>");
                                 out.println("<td>" + cake.getQty() + "</td>");
                                 out.println("</tr>");
                             }%>

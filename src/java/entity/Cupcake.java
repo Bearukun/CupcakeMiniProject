@@ -17,7 +17,7 @@ public class Cupcake  implements Serializable {
         this.cupCakename = cupCakename;
         this.idTopping = idTopping;
         this.idBottom = idBottom;
-        qty = 1;
+        this.qty = 1;
     }
     
     //Used when adding Cupcakes to the basket

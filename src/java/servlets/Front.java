@@ -125,7 +125,7 @@ public class Front extends HttpServlet {
                     pstmt.executeUpdate();
 
                     refreshCupcakes(2);
-                    response.sendRedirect("theshop.jsp#");
+                    response.sendRedirect("theshop.jsp#"+cupTopping);
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
