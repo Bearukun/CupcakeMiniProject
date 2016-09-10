@@ -128,7 +128,7 @@ public class Front extends HttpServlet {
                     pstmt.executeUpdate();
 
                     refreshCupcakes(2);
-                    response.sendRedirect("theshop.jsp#"+cupTopping);
+                    response.sendRedirect("theshop.jsp#" + cupTopping);
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -140,16 +140,33 @@ public class Front extends HttpServlet {
 
                 String cupName = request.getParameter("selectedCupcake");
                 String[] cupNameSplit = cupName.split("#");
+                boolean boolie = false;
                 int cupId = Integer.parseInt(cupNameSplit[0]);
-                
+
                 for (int i = 0; i < theCupcakes.size(); i++) {
-                    
-                    if(cupId == theCupcakes.get(i).getIdCupcake()){
-                        
-                        basket.add(new Cupcake(theCupcakes.get(i).getIdCupcake(), theCupcakes.get(i).getCupCakename(), theCupcakes.get(i).getIdTopping(), theCupcakes.get(i).getIdBottom(), 1));
-                        
+
+                    if (cupId == theCupcakes.get(i).getIdCupcake()) {
+
+                        for (int j = 0; j < basket.size(); j++) {
+
+                            if (basket.get(j).getIdCupcake() == cupId) {
+
+                                basket.get(j).setQty(basket.get(j).getQty() + 1);
+
+                                boolie = true;
+
+                            }
+
+                        }
+
+                        if (!boolie) {
+
+                            basket.add(new Cupcake(theCupcakes.get(i).getIdCupcake(), theCupcakes.get(i).getCupCakename(), theCupcakes.get(i).getIdTopping(), theCupcakes.get(i).getIdBottom(), 1));
+
+                        }
+
                     }
-                    
+
                 }
 
                 grandTotal = calGrandTotal();
@@ -171,21 +188,19 @@ public class Front extends HttpServlet {
         }
 
     }
-    
-    protected int calGrandTotal(){
-        
+
+    protected int calGrandTotal() {
+
         int temp = 0;
-        
+
         for (Cupcake basketItem : basket) {
-            
+
             temp += ((theToppings.get(basketItem.getIdTopping()).getPrice() + theBottoms.get(basketItem.getIdBottom()).getPrice()) * basketItem.getQty());
-            
+
         }
-        
+
         return temp;
     }
-    
-    
 
     protected void refreshCupcakes(int type) {
 
