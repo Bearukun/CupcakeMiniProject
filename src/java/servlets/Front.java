@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -79,7 +80,10 @@ public class Front extends HttpServlet {
 
                             response.sendRedirect("theshop.jsp");
                         } else {
-                            response.sendRedirect("login.jsp#");
+                            request.setAttribute("error", "Invalid username or password");
+                            RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+                            rd.include(request, response);
+                            //response.sendRedirect("login.jsp#");
                         }
 
                     } catch (SQLException ex) {
