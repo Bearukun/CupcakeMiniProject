@@ -41,11 +41,14 @@
         <!--Beginning of createCupcake div-->
         <div class="createCupcake">
             <div class="createCupcakeContent">
+                <!-- Create Cupcakeheader -->
                 <h3 style="color: white" align="center">Create cupcake</h3>
                 <form action="Front" method="POST">
                     <div class="col-xs-4">
+                        <!-- Topping header -->
                         <h5 style="color: white" align="center">1. Topping</h5>
                         <select class="form-control" name="selectedTopping" id="selectedTopping">
+                            <!-- Topping drop-down menu -->
                             <%  for (int i = 0; i < toppingList.size(); i++) {
                                     String option = toppingList.get(i).getCupcakeLayerPiece() + " | " + toppingList.get(i).getPrice() + "$";
                             %>
@@ -55,8 +58,10 @@
                         </select>
                     </div>
                     <div class="col-xs-4">
+                        <!-- Bottom header -->
                         <h5 style="color: white" align="center">2. Bottom</h5>
                         <select class="form-control" name="selectedBottom" id="selectedBottom">
+                            <!-- Bottom drop-down menu -->
                             <%  for (int i = 0; i < bottomsList.size(); i++) {
                                     String option = bottomsList.get(i).getCupcakeLayerPiece() + " | " + bottomsList.get(i).getPrice() + "$";
                             %>
@@ -66,10 +71,12 @@
                         </select>
                     </div>
                     <div class="col-xs-4">
+                        <!-- Custom CupCake name creation -->
                         <h5 style="color: white" align="center">3. Name</h5>
                         <input class="form-control" type="text" name="cupcakeName" placeholder="Enter a name here." />
                     </div>
                     <div class="col-xs-12" style="padding-top: 20px">
+                        <!-- Add cupcake button -->
                         <input type="hidden" name="origin" value="addCupcake" />
                         <input style="max-width: 120px; margin: auto" class="btn btn-warning btn-block" type="submit" value="Add Cupcake" name="add cupcake" />
                     </div>
@@ -86,6 +93,7 @@
                 <form action="Front" method="POST">
                     <div class="col-xs-12" style="padding-top: 20px">
                         <select  class="form-control" name="selectedCupcake" id="selectedCupcake">
+                            <!-- Select cupcake drop-down menu -->
                             <%  for (int i = 0; i < cupcakesList.size(); i++) {
                                     String option = cupcakesList.get(i).getIdCupcake() + "# " + cupcakesList.get(i).getCupCakename() + " || Topping: " + toppingList.get(cupcakesList.get(i).getIdTopping() - 1).getCupcakeLayerPiece() + " - Bottom: " + bottomsList.get(cupcakesList.get(i).getIdBottom() - 1).getCupcakeLayerPiece() + " || Price: " + (toppingList.get(cupcakesList.get(i).getIdTopping()).getPrice() + bottomsList.get(cupcakesList.get(i).getIdBottom()).getPrice() + "$");
                             %>
@@ -94,6 +102,7 @@
                         </select>
                     </div>
                     <div class="col-xs-12" style="padding-top: 20px">
+                        <!-- Add to basket button -->
                         <input type="hidden" name="origin" value="addToBasket" />
                         <input style="max-width: 120px; margin: auto" class="btn btn-warning btn-block" type="submit" value="Add to basket" name="Login" />
                     </div>
@@ -105,6 +114,7 @@
         <div>
             <form action="Front" method="POST">
                 <div class="col-xs-12" style="padding-top: 20px">
+                    <!-- Go to basket button -->
                     <input type="hidden" name="origin" value="goToBasket" />
                     <input style="max-width: 120px; margin: auto" class="btn btn-success btn-block" type="submit" value="Go to basket" name="basket" />
                 </div>

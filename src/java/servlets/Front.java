@@ -51,8 +51,10 @@ public class Front extends HttpServlet {
         String origin = request.getParameter("origin");
         String selectedIdBasket = request.getParameter("selectedIdBasket");
 
+        //Switch system for each button's actions on the various slides
         switch (origin) {
 
+            //Login to the website
             case "login":
 
                 String username = request.getParameter("username");
@@ -79,6 +81,8 @@ public class Front extends HttpServlet {
                             request.getSession().setAttribute("cupcakes", theCupcakes);
 
                             response.sendRedirect("theshop.jsp");
+                            
+                            //Error Message hvis bruger ikke findes
                         } else {
                             request.setAttribute("error", "Invalid username or password");
                             RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
@@ -92,14 +96,15 @@ public class Front extends HttpServlet {
                 }
 
                 break;
-
+            //Logout of the website
             case "logout":
 
                 request.getSession().invalidate();
                 response.sendRedirect("login.jsp#");
 
                 break;
-
+            
+            //Empty the customer basket
             case "empty":
 
                 basket.clear();
@@ -108,7 +113,8 @@ public class Front extends HttpServlet {
                 response.sendRedirect("basket.jsp#empty");
 
                 break;
-
+            
+            //Adds a custom cupcake to the selectable drop down menu
             case "addCupcake":
 
                 try {
@@ -140,7 +146,8 @@ public class Front extends HttpServlet {
                 }
 
                 break;
-
+                
+            //Adds the selected cup cake to the customers basket
             case "addToBasket":
 
                 String cupName = request.getParameter("selectedCupcake");
@@ -180,6 +187,8 @@ public class Front extends HttpServlet {
 
                 break;
 
+                
+            //Takes the customer to the basket
             case "goToBasket":
 
                 request.getSession().setAttribute("basket", basket);
@@ -189,6 +198,7 @@ public class Front extends HttpServlet {
                 break;
                 
      
+            //Takes the customer from the basket to checkout(invoice)
             case "checkout":
                 
                 //if user doesn't have enough funds!
@@ -231,6 +241,7 @@ public class Front extends HttpServlet {
     }
 
 //Methods used to make thing more easy for us.
+    //Calculates the grandTotal of the cupcakes price
     protected int calGrandTotal() {
 
         int temp = 0;
@@ -267,6 +278,7 @@ public class Front extends HttpServlet {
         
     }
 
+    //Refreshes cupcakes to make clear for new ones
     protected void refreshCupcakes(int type) {
 
         if (type == 1) {

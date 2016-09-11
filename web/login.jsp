@@ -18,8 +18,12 @@
         <video playsinline autoplay loop id="bgvid">
             <source src="media/bg.mp4" type="video/mp4">
         </video>
+        
+        <!-- Login-button og styring -->
         <div class="container">
+
             <form class="form-signin" action="Front" method="POST">
+                <!-- Error hvis bruger ikke findes! -->
                 <% String login_msg = (String)request.getAttribute("error"); if(login_msg != null) out.println("<div class=\"alert alert-warning\">" + login_msg + "</div>"); %>
                 <input class="form-control" type="text" name="username" value="" placeholder="Username" />
                 <input class="form-control" type="password" name="password" value="" placeholder="Password" />

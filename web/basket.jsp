@@ -13,6 +13,7 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <link href="script/basket.css" rel="stylesheet" type="text/css"/>
+        <!-- Oprettet ArrayLister baseret på objekter -->
         <% ArrayList<Cupcake> basket = (ArrayList<Cupcake>) session.getAttribute("basket");
             ArrayList<Layer> toppingList = (ArrayList<Layer>) session.getAttribute("toppings");
             ArrayList<Layer> bottomsList = (ArrayList<Layer>) session.getAttribute("bottoms");%>

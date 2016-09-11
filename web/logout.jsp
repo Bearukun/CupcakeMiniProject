@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Cupcake Shop - logging out</title>
     </head>
+    <!-- Logud styring - Sender brugeren tilbage til login skærmen -->
     <body>
         <h1>You've been logged out!</h1>
         <% session.setAttribute("user_id", null);
