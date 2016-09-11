@@ -51,26 +51,24 @@
                 <table class="table table-hover">
                     <thead>
                         <tr class="active">
-                            <th>invoice ID</th>
+                            
                             <th>Cupcake</th>
                             <th>Qty</th>                            
                             <th>Price</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <%  for (int j = 1; j < basket.size(); j++) {
-                                out.println("<td>" + j + "</td>");
-                            
-
-                            for (int i = 0; i < basket.size(); i++) {
+                        <%      for (int i = 0; i < basket.size(); i++) {
                                 Cupcake cake = basket.get(i);
+                                //out.println("<td>" + i + "</td>");
                                 out.println("<td>" + cake.getCupCakename() + "</td>");
                                 out.println("<td>" + cake.getQty() + "</td>");
                                 out.println("<td>" + ((toppingList.get(cake.getIdTopping()).getPrice() + bottomsList.get(cake.getIdBottom()).getPrice()) * cake.getQty()) + "</td>");
                                 out.println("</tr>");
-                            }}%>
+                            }%>
                     </tbody>
                 </table>
+                            <h1 align="center">New Grand Total: <% out.println(session.getAttribute("grandTotal"));%></h2>
                 
 
             </div>

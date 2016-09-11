@@ -190,7 +190,7 @@ public class Front extends HttpServlet {
                 
      
             case "checkout":
-
+                
                 //if user doesn't have enough funds!
                 if (grandTotal >= userBalance) {
                     response.sendRedirect("basket.jsp#not enough money");
@@ -199,7 +199,13 @@ public class Front extends HttpServlet {
                     
                 //else if user has enough funds!
                 } else {
+                    
+                    grandTotal = finalGrandTotal();
+                    //userBalance = userBalance - finalGrandTotal();
+                    request.getSession().setAttribute("balance", userBalance);
+                    request.getSession().setAttribute("grandTotal", grandTotal);
                     response.sendRedirect("checkout.jsp");
+                    
 
 //                    try {
 //
@@ -236,6 +242,29 @@ public class Front extends HttpServlet {
         }
 
         return temp;
+    }
+    //Final balance for checkout
+    protected  int finalGrandTotal(){
+        
+        int temp = 0;
+        for (Cupcake basketItem : basket) {
+
+            temp += ((theToppings.get(basketItem.getIdTopping()).getPrice() + theBottoms.get(basketItem.getIdBottom()).getPrice()) * basketItem.getQty());
+
+        }
+        
+        
+
+        return  userBalance - temp;
+        
+        
+    }
+    
+    protected int finalBalance(){
+        
+       return finalGrandTotal();
+        
+        
     }
 
     protected void refreshCupcakes(int type) {
