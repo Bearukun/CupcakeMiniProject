@@ -188,17 +188,13 @@ public class Front extends HttpServlet {
 
                 break;
                 
-            case "goToCheckout":
-                
-                response.sendRedirect("checkout.jsp");
-                
-
+     
             case "checkout":
 
                 //if user doesn't have enough funds!
                 if (grandTotal >= userBalance) {
                     response.sendRedirect("basket.jsp#not enough money");
-
+                    
                     
                     
                 //else if user has enough funds!
