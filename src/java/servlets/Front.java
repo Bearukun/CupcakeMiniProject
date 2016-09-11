@@ -203,7 +203,7 @@ public class Front extends HttpServlet {
                     
                 //else if user has enough funds!
                 } else {
-                    response.sendRedirect("basket.jsp#purchase!");
+                    response.sendRedirect("checkout.jsp");
 
 //                    try {
 //

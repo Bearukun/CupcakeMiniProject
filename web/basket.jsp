@@ -68,7 +68,7 @@
                 <div>
                     <form action="Front" method="POST">
                         <div class="col-xs-6" style="padding-top: 0px">
-                            <input type="hidden" name="origin" value="goToCheckout" />
+                            <input type="hidden" name="origin" value="checkout" />
                             <input style="max-width: 130px; margin: auto" class="btn btn-success btn-block" type="submit" value="Checkout" name="checkout" />
                         </div>
                     </form>
