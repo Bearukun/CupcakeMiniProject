@@ -182,6 +182,11 @@ public class Front extends HttpServlet {
                 response.sendRedirect("basket.jsp");
 
                 break;
+                
+            case "goToCheckout":
+                
+                response.sendRedirect("checkout.jsp");
+                
 
             default:
                 break;
