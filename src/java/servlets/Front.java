@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,6 +33,7 @@ public class Front extends HttpServlet {
     ArrayList<Cupcake> theCupcakes = new ArrayList();
     ArrayList<Cupcake> basket = new ArrayList();
     int grandTotal = 0;
+    int userBalance = 0;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,7 +68,7 @@ public class Front extends HttpServlet {
                             PreparedStatement sqlBalpstmt = Db.getConnection().prepareStatement(sqlBalance);
                             ResultSet balance = sqlBalpstmt.executeQuery();
                             balance.last();
-                            int userBalance = balance.getInt("balance");
+                            userBalance = balance.getInt("balance");
 
                             request.getSession().setAttribute("balance", userBalance);
                             request.getSession().setAttribute("username", username);
@@ -78,7 +80,10 @@ public class Front extends HttpServlet {
 
                             response.sendRedirect("theshop.jsp");
                         } else {
-                            response.sendRedirect("login.jsp#");
+                            request.setAttribute("error", "Invalid username or password");
+                            RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+                            rd.include(request, response);
+                            //response.sendRedirect("login.jsp#");
                         }
 
                     } catch (SQLException ex) {
@@ -188,12 +193,42 @@ public class Front extends HttpServlet {
                 response.sendRedirect("checkout.jsp");
                 
 
+            case "checkout":
+
+                //if user doesn't have enough funds!
+                if (grandTotal >= userBalance) {
+                    response.sendRedirect("basket.jsp#not enough money");
+
+                    
+                    
+                //else if user has enough funds!
+                } else {
+                    response.sendRedirect("basket.jsp#purchase!");
+
+//                    try {
+//
+//                        PreparedStatement sqlBalpstmt = Db.getConnection().prepareStatement(sqlBalance);
+//                        ResultSet balance = sqlBalpstmt.executeQuery();
+//                        balance.last();
+//                        int userBalance = balance.getInt("balance");
+//
+//                        request.getSession().setAttribute("balance", userBalance);
+//
+//                    } catch (SQLException ex) {
+//                        Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+
+                }
+
+                break;
+
             default:
                 break;
         }
 
     }
 
+//Methods used to make thing more easy for us.
     protected int calGrandTotal() {
 
         int temp = 0;

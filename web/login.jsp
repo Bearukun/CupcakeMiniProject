@@ -20,6 +20,7 @@
         </video>
         <div class="container">
             <form class="form-signin" action="Front" method="POST">
+                <% String login_msg = (String)request.getAttribute("error"); if(login_msg != null) out.println("<div class=\"alert alert-warning\">" + login_msg + "</div>"); %>
                 <input class="form-control" type="text" name="username" value="" placeholder="Username" />
                 <input class="form-control" type="password" name="password" value="" placeholder="Password" />
                 <input type="hidden" name="origin" value="login" />
