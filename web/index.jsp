@@ -14,10 +14,10 @@
         <link href="script/login.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <!--Adding the sweet bg video-->
+<!--        Adding the sweet bg video
         <video playsinline autoplay loop id="bgvid">
             <source src="media/bg.mp4" type="video/mp4">
-        </video>
+        </video>-->
         
         <!-- Login-button og styring -->
         <div class="container">

@@ -59,11 +59,16 @@ public class Front extends HttpServlet {
 
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
-                String sql = "SELECT idUser from user where binary username like \"" + username + "\" and binary password like \"" + password + "\"";
+                String sql = "SELECT idUser from user where binary username like ? and binary password like ?";
                  {
                     try {
-                        PreparedStatement pstmt = Db.getConnection().prepareStatement(sql);
-                        ResultSet rs = pstmt.executeQuery();
+                        PreparedStatement pstmtLogin = Db.getConnection().prepareStatement(sql);
+
+                        pstmtLogin.setString(1, username);
+                        pstmtLogin.setString(2, password);
+
+                        
+                        ResultSet rs = pstmtLogin.executeQuery();
 
                         if (rs.next()) {
                             String sqlBalance = "SELECT balance FROM user where idUser = " + rs.getInt(1) + ";";
@@ -81,7 +86,7 @@ public class Front extends HttpServlet {
                             request.getSession().setAttribute("cupcakes", theCupcakes);
 
                             response.sendRedirect("theshop.jsp");
-                            
+
                             //Error Message hvis bruger ikke findes
                         } else {
                             request.setAttribute("error", "Invalid username or password");
@@ -103,7 +108,7 @@ public class Front extends HttpServlet {
                 response.sendRedirect("login.jsp#");
 
                 break;
-            
+
             //Empty the customer basket
             case "empty":
 
@@ -113,7 +118,7 @@ public class Front extends HttpServlet {
                 response.sendRedirect("basket.jsp#empty");
 
                 break;
-            
+
             //Adds a custom cupcake to the selectable drop down menu
             case "addCupcake":
 
@@ -146,7 +151,7 @@ public class Front extends HttpServlet {
                 }
 
                 break;
-                
+
             //Adds the selected cup cake to the customers basket
             case "addToBasket":
 
@@ -187,7 +192,6 @@ public class Front extends HttpServlet {
 
                 break;
 
-                
             //Takes the customer to the basket
             case "goToBasket":
 
@@ -196,26 +200,22 @@ public class Front extends HttpServlet {
                 response.sendRedirect("basket.jsp");
 
                 break;
-                
-     
+
             //Takes the customer from the basket to checkout(invoice)
             case "checkout":
-                
+
                 //if user doesn't have enough funds!
                 if (grandTotal >= userBalance) {
                     response.sendRedirect("basket.jsp#not enough money");
-                    
-                    
-                    
-                //else if user has enough funds!
+
+                    //else if user has enough funds!
                 } else {
-                    
+
                     grandTotal = finalGrandTotal();
                     //userBalance = userBalance - finalGrandTotal();
                     request.getSession().setAttribute("balance", userBalance);
                     request.getSession().setAttribute("grandTotal", grandTotal);
                     response.sendRedirect("checkout.jsp");
-                    
 
 //                    try {
 //
@@ -229,7 +229,6 @@ public class Front extends HttpServlet {
 //                    } catch (SQLException ex) {
 //                        Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
 //                    }
-
                 }
 
                 break;
@@ -254,28 +253,25 @@ public class Front extends HttpServlet {
 
         return temp;
     }
+
     //Final balance for checkout
-    protected  int finalGrandTotal(){
-        
+    protected int finalGrandTotal() {
+
         int temp = 0;
         for (Cupcake basketItem : basket) {
 
             temp += ((theToppings.get(basketItem.getIdTopping()).getPrice() + theBottoms.get(basketItem.getIdBottom()).getPrice()) * basketItem.getQty());
 
         }
-        
-        
 
-        return  userBalance - temp;
-        
-        
+        return userBalance - temp;
+
     }
-    
-    protected int finalBalance(){
-        
-       return finalGrandTotal();
-        
-        
+
+    protected int finalBalance() {
+
+        return finalGrandTotal();
+
     }
 
     //Refreshes cupcakes to make clear for new ones

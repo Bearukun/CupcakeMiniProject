@@ -16,7 +16,7 @@
         <h1>You've been logged out!</h1>
         <% session.setAttribute("user_id", null);
             session.invalidate();
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("");
         %>
     </body>
 </html>
